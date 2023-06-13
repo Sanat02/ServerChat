@@ -1,3 +1,6 @@
+import entities.ClientAccept;
+import entities.UsersList;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,7 +10,7 @@ import java.util.concurrent.Executors;
 public class EchoServer {
     private final int port;
     private final ExecutorService pool = Executors.newCachedThreadPool();
-    
+
     private EchoServer(int port) {
         this.port = port;
 
