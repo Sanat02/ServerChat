@@ -1,5 +1,7 @@
 package entities;
 
+import utilities.Colors;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -11,7 +13,7 @@ public class ClientAccept {
     public static void run(Socket socket) {
 
         String username = UsersList.getSockets().get(socket);
-        System.out.printf("Client connected: %s%n",username);
+        System.out.printf(Colors.GREEN_BOLD+"Client connected: %s%n",Colors.YELLOW+username);
 
         try (socket;
              Scanner reader = getReader(socket);
@@ -22,7 +24,7 @@ public class ClientAccept {
 
             while (true) {
                 String message = reader.nextLine().strip();
-                System.out.printf("Got message: %s%n", message);
+                System.out.printf(Colors.CYAN+"Got message: < %s > from %s %n", message,Colors.YELLOW+username);
 
                 if (isQuitMsg(message)) {
                     break;
@@ -44,7 +46,7 @@ public class ClientAccept {
                             if (list.size() >= 2) {
                                 whisperUser(socket, list, writer);
                             } else {
-                                sendResponse("Invalis whisper!Add user name and message!", writer);
+                                sendResponse("Invalid whisper!Add user name and message!", writer);
                             }
                             break;
                         default:
@@ -60,15 +62,15 @@ public class ClientAccept {
             }
 
         } catch (NoSuchElementException ex) {
-            System.out.println("Client dropped connection!");
+            System.out.println(Colors.RED+"Client dropped connection!");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.printf("Client is closed: %s%n", socket);
+        System.out.printf(Colors.RED+"Client is closed: %s%n", Colors.YELLOW+username);
         try {
             sendResponseToAll(String.format("Client %s left chat",username),socket);
         } catch (IOException e) {
-            System.out.println("Error!");
+            System.out.println(Colors.RED+"Error!");
         }
         UsersList.getSockets().remove(socket);
 
@@ -91,7 +93,7 @@ public class ClientAccept {
     }
 
     private static void sendResponse(String response, PrintWriter writer) {
-        System.out.println("You sent response successfully!");
+        System.out.println(Colors.GREEN+"You sent response successfully!");
         writer.println(response);
         writer.flush();
 

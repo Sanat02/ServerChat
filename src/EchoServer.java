@@ -1,5 +1,6 @@
 import entities.ClientAccept;
 import entities.UsersList;
+import utilities.Colors;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,7 +22,7 @@ public class EchoServer {
     }
 
     public void run() {
-        System.out.println("Connecting..........");
+        System.out.println(Colors.BLUE+"Connecting..........");
         try (ServerSocket server = new ServerSocket(port)) {
             while (!server.isClosed()) {
                 Socket clientSocket = server.accept();
@@ -34,7 +35,6 @@ public class EchoServer {
             e.printStackTrace();
         }
 
-        System.out.println("Hello");
     }
 
 }
